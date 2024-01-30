@@ -1,5 +1,8 @@
+mod pattern;
+
 use anyhow::{Context, Result};
 use clap::Parser;
+use pattern::CountType;
 
 #[derive(Parser)]
 struct Cli {
@@ -24,16 +27,13 @@ fn main() -> Result<()> {
 fn handle_command_provided(pattern: String, content: String, path: std::path::PathBuf) {
     match pattern.as_str() {
         "-c" => {
-            let byte_count = content.len();
-            println!("{} {:?}", byte_count, &path);
+            println!("{} {:?}", CountType::ByteCount.get_string(&content), &path);
         }
         "-l" => {
-            let line_count = content.lines().count();
-            println!("{} {:?}", line_count, &path);
+            println!("{} {:?}", CountType::LineCount.get_string(&content), &path);
         }
         "-w" => {
-            let word_count = content.split_whitespace().count();
-            println!("{} {:?}", word_count, &path);
+            println!("{} {:?}", CountType::WordCount.get_string(&content), &path);
         }
         "" => {
             println!("Test");
@@ -43,9 +43,11 @@ fn handle_command_provided(pattern: String, content: String, path: std::path::Pa
 }
 
 fn handle_command_not_provided(content: String, path: std::path::PathBuf) {
-    let byte_count = content.len();
-    let line_count = content.lines().count();
-    let word_count = content.split_whitespace().count();
-
-    println!("{} {} {} {:?}", byte_count, line_count, word_count, &path);
+    println!(
+        "{} {} {} {:?}",
+        CountType::ByteCount.get_string(&content),
+        CountType::LineCount.get_string(&content),
+        CountType::WordCount.get_string(&content),
+        &path
+    );
 }

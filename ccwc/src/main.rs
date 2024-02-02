@@ -2,16 +2,18 @@ mod pattern;
 
 use anyhow::{Context, Result};
 use clap::Parser;
-use pattern::CountType;
+use pattern::PatternType;
 
 #[derive(Parser)]
 struct Cli {
-    path: std::path::PathBuf,
+    path: Option<std::path::PathBuf>,
     pattern: Option<String>,
 }
 
 fn main() -> Result<()> {
     let args = Cli::parse();
+
+    let
 
     let content = std::fs::read_to_string(&args.path)
         .with_context(|| format!("could not read file `{:?}`", args.path.display()))?;

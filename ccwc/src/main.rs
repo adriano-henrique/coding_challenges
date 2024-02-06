@@ -1,8 +1,10 @@
+mod path;
 mod pattern;
 
-use anyhow::{Context, Result};
+use anyhow::Result;
 use clap::Parser;
-use pattern::PatternType;
+use path::{handle_path_not_provided, handle_path_provided};
+use pattern::Pattern;
 
 #[derive(Parser)]
 struct Cli {
@@ -13,43 +15,14 @@ struct Cli {
 fn main() -> Result<()> {
     let args = Cli::parse();
 
-    let
+    let pattern = Pattern::new(args.pattern);
 
-    let content = std::fs::read_to_string(&args.path)
-        .with_context(|| format!("could not read file `{:?}`", args.path.display()))?;
+    let result = match args.path {
+        Some(non_empty_path) => handle_path_provided(non_empty_path, pattern),
+        None => handle_path_not_provided(),
+    };
 
-    match args.pattern {
-        Some(non_empty_pattern) => handle_command_provided(non_empty_pattern, content, args.path),
-        None => handle_command_not_provided(content, args.path),
-    }
+    println!("{}", result);
 
     Ok(())
-}
-
-fn handle_command_provided(pattern: String, content: String, path: std::path::PathBuf) {
-    match pattern.as_str() {
-        "-c" => {
-            println!("{} {:?}", CountType::ByteCount.get_string(&content), &path);
-        }
-        "-l" => {
-            println!("{} {:?}", CountType::LineCount.get_string(&content), &path);
-        }
-        "-w" => {
-            println!("{} {:?}", CountType::WordCount.get_string(&content), &path);
-        }
-        "" => {
-            println!("Test");
-        }
-        _ => println!("Command not found. Use -help to understand more"),
-    }
-}
-
-fn handle_command_not_provided(content: String, path: std::path::PathBuf) {
-    println!(
-        "{} {} {} {:?}",
-        CountType::ByteCount.get_string(&content),
-        CountType::LineCount.get_string(&content),
-        CountType::WordCount.get_string(&content),
-        &path
-    );
 }

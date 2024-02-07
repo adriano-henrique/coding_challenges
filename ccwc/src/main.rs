@@ -1,10 +1,12 @@
 mod path;
 mod pattern;
 
+extern crate anyhow;
+extern crate clap;
+
 use anyhow::Result;
 use clap::Parser;
-use path::{handle_path_not_provided, handle_path_provided};
-use pattern::Pattern;
+use path::{get_file_path, get_pattern, handle_path_not_provided, handle_path_provided};
 
 #[derive(Parser)]
 struct Cli {
@@ -14,11 +16,11 @@ struct Cli {
 
 fn main() -> Result<()> {
     let args = Cli::parse();
+    let file_path = get_file_path(&args.path, &args.pattern);
+    let pattern = get_pattern(&args.pattern);
 
-    let pattern = Pattern::new(args.pattern);
-
-    let result = match args.path {
-        Some(non_empty_path) => handle_path_provided(non_empty_path, pattern),
+    let result = match file_path {
+        Some(non_empty_path) => handle_path_provided(&non_empty_path, pattern),
         None => handle_path_not_provided(pattern),
     };
 

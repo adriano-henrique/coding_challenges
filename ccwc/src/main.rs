@@ -8,8 +8,8 @@ use pattern::Pattern;
 
 #[derive(Parser)]
 struct Cli {
-    path: Option<std::path::PathBuf>,
     pattern: Option<String>,
+    path: Option<std::path::PathBuf>,
 }
 
 fn main() -> Result<()> {
@@ -19,7 +19,7 @@ fn main() -> Result<()> {
 
     let result = match args.path {
         Some(non_empty_path) => handle_path_provided(non_empty_path, pattern),
-        None => handle_path_not_provided(),
+        None => handle_path_not_provided(pattern),
     };
 
     println!("{}", result);

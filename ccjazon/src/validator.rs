@@ -9,7 +9,8 @@ pub fn validate_json(path: &String) -> bool {
 
 fn build_file_path(path: &String) -> PathBuf {
     let home_dir = env::var("HOME").expect("Could not get home directory path");
-    let lib_dir = PathBuf::from(home_dir).join("dev/coding_challenges/ccjazon");
+    let test_path_var = env::var("CCJAZON_TEST_PATH").unwrap();
+    let lib_dir = PathBuf::from(home_dir).join(test_path_var);
     let analyzed_file_path = PathBuf::from(lib_dir).join(path);
     println!("Analyzed directory: {}", analyzed_file_path.display());
     return analyzed_file_path;

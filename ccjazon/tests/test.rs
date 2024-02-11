@@ -2,7 +2,7 @@
 mod validator;
 
 #[cfg(test)]
-mod tests {
+mod validator_tests {
     use super::*;
     use crate::validator::validate_json;
 

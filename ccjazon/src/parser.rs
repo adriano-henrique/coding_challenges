@@ -5,21 +5,15 @@ use scanner::Scanner;
 use token::{JazonToken, JazonTokenType};
 
 pub fn tokenize(content: String) -> Vec<token::JazonToken> {
-    let mut scanner = Scanner::new(&content);
     let mut jazon_token_vec = Vec::new();
-    while !scanner.is_done() {
-        match scanner.pop() {
-            Some(character) => {
-                match character {
-                    '{' => jazon_token_vec.push(JazonToken::new(JazonTokenType::LBrace, character.to_string())),
-                    '}' => jazon_token_vec.push(JazonToken::new(JazonTokenType::RBrace, character.to_string())),
-                    _ => jazon_token_vec.push(JazonToken::new(JazonTokenType::Invalid, String::new()))
-                }
-            }
-            None => break
+    for c in content.chars() {
+        match c {
+            '{' => jazon_token_vec.push(JazonToken::new(JazonTokenType::LBrace, c.to_string())),
+            '}' => jazon_token_vec.push(JazonToken::new(JazonTokenType::RBrace, c.to_string())),
+            _ => jazon_token_vec.push(JazonToken::new_invalid())
         }
     }
-    jazon_token_vec.push(JazonToken::new(JazonTokenType::EOF, String::new()));
+    jazon_token_vec.push(JazonToken::new_eof());
     jazon_token_vec
 }
 

@@ -18,6 +18,10 @@ impl JazonToken {
     }
 
     pub fn new_eof() -> JazonToken {
-        JazonToken { token_type: JazonTokenType::EOF, literal: String::new()}
+        JazonToken { token_type: JazonTokenType::EOF, literal: String::new() }
+    }
+
+    pub fn new_invalid() -> JazonToken {
+        JazonToken { token_type: JazonTokenType::Invalid, literal: String::new() }
     }
 }

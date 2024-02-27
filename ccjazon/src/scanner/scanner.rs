@@ -1,7 +1,22 @@
 #[path = "./token/token.rs"]
 mod token;
 
+struct Scanner {
+    cursor: usize,
+    characters: Vec<char>,
+}
+
+impl Scanner {
+    pub fn new(string: &str) -> Self {
+        Self {
+            cursor: 0,
+            characters: string.chars().collect(),
+        }
+    }
+}
 fn tokenize(content: String) -> Vec<token::JazonToken> {
+    let scanner = Scanner::new(string);
+    println!("{:?}", scanner.characters);
     return true;
 }
 

@@ -6,4 +6,5 @@ pub struct JazonToken {
 enum JazonTokenType {
     LBrace,
     RBrace,
+    EOF,
 }

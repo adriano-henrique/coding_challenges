@@ -1,13 +1,16 @@
+use crate::parser::JazonToken;
+
+#[derive(Clone)]
 pub struct Scanner {
     cursor: usize,
-    characters: Vec<char>,
+    tokens: Vec<JazonToken>,
 }
 
 impl Scanner {
-    pub fn new(string: &str) -> Self {
+    pub fn new(token_vec: &Vec<JazonToken>) -> Self {
         Self {
             cursor: 0,
-            characters: string.chars().collect(),
+            tokens: token_vec.to_vec(),
         }
     }
 
@@ -15,20 +18,20 @@ impl Scanner {
         self.cursor
     }
 
-    pub fn peek(&self) -> Option<&char> {
-        self.characters.get(self.cursor)
+    pub fn peek(&self) -> Option<&JazonToken> {
+        self.tokens.get(self.cursor)
     }
 
     pub fn is_done(&self) -> bool {
-        self.cursor == self.characters.len()
+        self.cursor == self.tokens.len()
     }
 
-    pub fn pop(&mut self) -> Option<&char> {
-        match self.characters.get(self.cursor) {
-            Some(character) => {
+    pub fn pop(&mut self) -> Option<&JazonToken> {
+        match self.tokens.get(self.cursor) {
+            Some(token) => {
                 self.cursor += 1;
 
-                Some(character)
+                Some(token)
             }
             None => None,
         }

@@ -1,7 +1,6 @@
-pub mod scanner;
 pub mod token;
+pub mod scanner;
 
-use scanner::Scanner;
 use token::{JazonToken, JazonTokenType};
 
 pub fn tokenize(content: String) -> Vec<token::JazonToken> {

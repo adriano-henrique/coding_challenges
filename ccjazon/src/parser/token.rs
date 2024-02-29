@@ -1,10 +1,10 @@
-#[derive(PartialEq, Debug)]
+#[derive(PartialEq, Debug, Clone)]
 pub struct JazonToken {
     token_type: JazonTokenType,
     literal: String,
 }
 
-#[derive(PartialEq, Debug)]
+#[derive(PartialEq, Debug, Clone, Copy)]
 pub enum JazonTokenType {
     LBrace,
     RBrace,
@@ -23,5 +23,9 @@ impl JazonToken {
 
     pub fn new_invalid() -> JazonToken {
         JazonToken { token_type: JazonTokenType::Invalid, literal: String::new() }
+    }
+
+    pub fn get_token_type(&self) -> JazonTokenType {
+        self.token_type
     }
 }

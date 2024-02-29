@@ -5,7 +5,7 @@ mod parser;
 
 use clap::Parser;
 
-use crate::parser::tokenize;
+use crate::{parser::tokenize, validator::validate};
 
 #[derive(Parser)]
 struct Cli {
@@ -19,4 +19,5 @@ fn main() {
     let contents = fs::read_to_string(file_path).expect("Unable to read file");
     let tokenized_contents = tokenize(contents);
     println!("{:?}", tokenized_contents);
+    println!("{:?}", validate(tokenized_contents))
 }

@@ -2,8 +2,12 @@ import asyncio
 from websockets.server import serve
 
 async def echo(websocket):
+    i = 0
+    name = await websocket.recv()
+    print("Received name: " + name)
     async for message in websocket:
-        await websocket.send(message)
+        print("Sending message: " + message)
+        await websocket.send(name + ": " + message)
 
 async def main():
     print('starting server')
